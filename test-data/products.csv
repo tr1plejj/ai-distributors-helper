@@ -1,0 +1,51 @@
+id,sku,name,brand,category,purchase_price,retail_price,stock_quantity
+1,WEL-0001,Wella Koleston Perfect 60ml,Wella,краска для волос,480,890,87
+2,WEL-0002,Wella Color Touch 60ml,Wella,краска для волос,420,790,110
+3,WEL-0003,Wella Invigo Nutri-Enrich 1000ml,Wella,шампунь,1200,2300,0
+4,WEL-0004,Wella Invigo Nutri-Enrich 500ml,Wella,маска,1450,2700,103
+5,WEL-0005,Wella EIMI Pearl Styler 150ml,Wella,стайлинг,750,1450,4
+6,WEL-0006,Wella Welloxon Perfect 1000ml,Wella,окислитель,380,750,140
+7,WEL-0007,Wella Blondor Multi Blonde 800g,Wella,обесцвечивание,1100,2100,123
+8,L'O-0008,L'Oreal Pro Majirel 50ml,L'Oreal Pro,краска для волос,510,940,38
+9,L'O-0009,L'Oreal Pro Dia Light 50ml,L'Oreal Pro,краска для волос,460,850,71
+10,L'O-0010,L'Oreal Pro Inoa 60ml,L'Oreal Pro,краска для волос,620,1180,65
+11,L'O-0011,L'Oreal Pro Serie Expert Absolut Repair 300ml,L'Oreal Pro,шампунь,950,1850,24
+12,L'O-0012,L'Oreal Pro Serie Expert Absolut Repair 500ml,L'Oreal Pro,маска,1500,2900,3
+13,L'O-0013,L'Oreal Pro Serie Expert Vitamino Color 1500ml,L'Oreal Pro,шампунь,2200,4100,13
+14,L'O-0014,L'Oreal Pro Tecni.Art Pli 190ml,L'Oreal Pro,стайлинг,680,1300,149
+15,SCH-0015,Schwarzkopf Igora Royal 60ml,Schwarzkopf,краска для волос,470,880,66
+16,SCH-0016,Schwarzkopf Igora Vibrance 60ml,Schwarzkopf,краска для волос,430,810,64
+17,SCH-0017,Schwarzkopf BC Bonacure Repair Rescue 1000ml,Schwarzkopf,шампунь,1300,2450,0
+18,SCH-0018,Schwarzkopf BC Bonacure Repair Rescue 650ml,Schwarzkopf,маска,1700,3100,9
+19,SCH-0019,Schwarzkopf OSiS+ Session 300ml,Schwarzkopf,стайлинг,720,1380,1
+20,SCH-0020,Schwarzkopf Blond Me Premium Lift 9+ 450g,Schwarzkopf,обесцвечивание,1450,2700,23
+21,EST-0021,Estel De Luxe 60ml,Estel,краска для волос,220,420,66
+22,EST-0022,Estel Sense De Luxe 60ml,Estel,краска для волос,240,460,25
+23,EST-0023,Estel Princess Essex 60ml,Estel,краска для волос,180,350,16
+24,EST-0024,Estel Otium Aqua 1000ml,Estel,шампунь,580,1150,92
+25,EST-0025,Estel Otium Miracle 500ml,Estel,маска,690,1340,26
+26,EST-0026,Estel Always On-Line 200ml,Estel,стайлинг,320,620,139
+27,EST-0027,Estel Oxigent 1000ml,Estel,окислитель,240,480,68
+28,KAP-0028,Kapous Hyaluronic Acid 100ml,Kapous,краска для волос,290,540,0
+29,KAP-0029,Kapous Magic Keratin 1000ml,Kapous,шампунь,540,1050,79
+30,KAP-0030,Kapous Magic Keratin 500ml,Kapous,маска,620,1190,
+31,KAP-0031,Kapous Studio Professional 100ml,Kapous,краска для волос,260,490,62
+32,KAP-0032,Kapous Cremoxon 1000ml,Kapous,окислитель,260,510,146
+33,OLL-0033,OLLIN Color 60ml,OLLIN,краска для волос,170,320,2
+34,OLL-0034,OLLIN Megapolis 1000ml,OLLIN,шампунь,480,920,129
+35,OLL-0035,OLLIN Performance 1000ml,OLLIN,шампунь,510,980,70
+36,OLL-0036,OLLIN BioNika 500ml,OLLIN,маска,580,1100,129
+37,OLL-0037,OLLIN Style 200ml,OLLIN,стайлинг,280,540,112
+38,OLL-0038,OLLIN Oxidizing Emulsion 1000ml,OLLIN,окислитель,230,450,56
+39,MAT-0039,Matrix SoColor Beauty 90ml,Matrix,краска для волос,410,770,32
+40,MAT-0040,Matrix Color Sync 90ml,Matrix,краска для волос,380,720,32
+41,MAT-0041,Matrix Total Results Miracle Creator 500ml,Matrix,маска,1100,2050,0
+42,MAT-0042,Matrix Biolage R.A.W. 1000ml,Matrix,шампунь,1050,1990,118
+43,MAT-0043,Matrix StyleLink Air Dry Lotion 150ml,Matrix,стайлинг,540,1050,98
+44,IND-0044,Indola Profession Permanent 60ml,Indola,краска для волос,230,450,116
+45,IND-0045,Indola Innova Color 1500ml,Indola,шампунь,760,1480,113
+46,IND-0046,Indola Innova Repair 750ml,Indola,маска,940,1810,127
+47,IND-0047,Indola Setting Foam 300ml,Indola,стайлинг,420,820,1
+48,CON-0048,Concept Profy Touch 60ml,Concept,краска для волос,160,310,33
+49,CON-0049,Concept Salon Total 1000ml,Concept,шампунь,410,790,23
+50,CON-0050,Concept Salon Total Color 300ml,Concept,маска,380,740,111
