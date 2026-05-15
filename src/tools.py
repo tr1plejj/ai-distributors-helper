@@ -64,14 +64,18 @@ TOOLS: list[dict[str, Any]] = [
         "name": "get_sales_summary",
         "description": (
             "Use when the user asks for a sales summary, revenue, top clients, top products, "
-            "order statuses, anomalies, or what happened in sales for a period."
+            "order statuses, anomalies, or what happened in sales for a period. "
+            "If the user asks for all revenue or the whole available history, pass days as null."
         ),
         "parameters": {
             "type": "object",
             "properties": {
                 "days": {
-                    "type": "integer",
-                    "description": "Sales summary period in days. Use 30 if the user does not specify a period.",
+                    "type": ["integer", "null"],
+                    "description": (
+                        "Sales summary period in days. Use 30 if the user does not specify a period. "
+                        "Use null for all available history."
+                    ),
                 }
             },
             "required": ["days"],
@@ -89,7 +93,7 @@ def run_tool(name: str, arguments: dict[str, Any], data: PreparedData) -> str:
     elif name == "get_stock_risks":
         result = get_stock_risks(data, days=_safe_days(arguments.get("days"), default=90))
     elif name == "get_sales_summary":
-        result = get_sales_summary(data, days=_safe_days(arguments.get("days"), default=30))
+        result = get_sales_summary(data, days=_safe_optional_days(arguments.get("days"), default=30))
     else:
         return json.dumps({"error": f"Unknown tool: {name}"}, ensure_ascii=False)
 
@@ -114,6 +118,12 @@ def _safe_days(value: Any, default: int) -> int:
     except (TypeError, ValueError):
         days = default
     return max(7, min(days, 365))
+
+
+def _safe_optional_days(value: Any, default: int) -> int | None:
+    if value is None:
+        return None
+    return _safe_days(value, default)
 
 
 def _to_jsonable(value: Any) -> Any:

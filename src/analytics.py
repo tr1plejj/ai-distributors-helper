@@ -91,7 +91,7 @@ class StockRisks:
 
 @dataclass
 class SalesSummary:
-    period_days: int
+    period_days: int | None
     period_start: str | None
     period_end: str | None
     revenue: float
@@ -222,7 +222,7 @@ def get_stock_risks(data: PreparedData, days: int = 90, limit: int = 10) -> Stoc
     )
 
 
-def get_sales_summary(data: PreparedData, days: int = 30) -> SalesSummary:
+def get_sales_summary(data: PreparedData, days: int | None = 30) -> SalesSummary:
     """
     Возвращает управленческую сводку по продажам за период:
     выручку, статусы заказов, топ клиентов, топ товаров, риски склада и проблемы данных.
@@ -247,8 +247,16 @@ def get_sales_summary(data: PreparedData, days: int = 30) -> SalesSummary:
         )
 
     period_end = max(order.date for order in dated_orders if order.date is not None)
-    period_start = period_end - timedelta(days=days)
-    period_orders = [order for order in dated_orders if order.date and order.date >= period_start]
+
+    if days is None:
+        period_start = min(order.date for order in dated_orders if order.date is not None)
+        period_orders = dated_orders
+        stock_risk_days = 90
+    else:
+        period_start = period_end - timedelta(days=days)
+        period_orders = [order for order in dated_orders if order.date and order.date >= period_start]
+        stock_risk_days = days
+
     revenue = round(sum(order.total_amount or 0 for order in period_orders), 2)
 
     return SalesSummary(
@@ -260,7 +268,7 @@ def get_sales_summary(data: PreparedData, days: int = 30) -> SalesSummary:
         status_counts=dict(Counter(order.status or "empty" for order in data.orders)),
         top_clients=_top_clients(period_orders, clients_by_id),
         top_products=_top_products(period_orders, products_by_id),
-        stock_risks=get_stock_risks(data, days=days, limit=5).items,
+        stock_risks=get_stock_risks(data, days=stock_risk_days, limit=5).items,
         data_issues=[_issue_to_dict(issue) for issue in data.issues[:10]],
     )
 
