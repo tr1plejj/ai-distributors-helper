@@ -14,17 +14,27 @@ def main() -> None:
     load_dotenv()
 
     question = " ".join(sys.argv[1:]).strip()
+    data = prepare_data(load_clients(), fetch_products(), fetch_orders())
 
-    if not question:
-        question = input("Вопрос: ").strip()
-
-    if not question:
-        print("Пустой вопрос.")
+    if question:
+        answer = answer_question(question, data)
+        print(answer)
         return
 
-    data = prepare_data(load_clients(), fetch_products(), fetch_orders())
-    answer = answer_question(question, data)
-    print(answer)
+    print("Введите вопрос. Для выхода: exit, quit или выход.")
+
+    while True:
+        question = input("\nВопрос: ").strip()
+
+        if question.lower() in {"exit", "quit", "выход"}:
+            break
+
+        if not question:
+            print("Пустой вопрос.")
+            continue
+
+        answer = answer_question(question, data)
+        print(answer)
 
 
 if __name__ == "__main__":
