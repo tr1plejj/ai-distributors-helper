@@ -1,20 +1,30 @@
 """
-Entry point. Реши сам — это CLI, бот или что-то ещё.
-Удали этот заглушечный код и напиши своё.
+CLI entry point для AI-ассистента.
 """
+import sys
+
 from dotenv import load_dotenv
+
+from src.cleaning import prepare_data
+from src.data_sources import fetch_orders, fetch_products, load_clients
+from src.llm import answer_question
 
 
 def main() -> None:
     load_dotenv()
-    print("Hello from the starter. Replace me with your solution.")
-    # Подсказка по структуре (можешь отказаться):
-    # 1. Загрузить данные из трёх источников (см. src/data_sources.py)
-    # 2. Получить вопрос от пользователя (CLI prompt / Telegram update)
-    # 3. Определить, к какому из 3 сценариев он относится (классификатор)
-    # 4. Подобрать релевантный контекст
-    # 5. Вызвать LLM с подготовленным промптом
-    # 6. Вернуть ответ
+
+    question = " ".join(sys.argv[1:]).strip()
+
+    if not question:
+        question = input("Вопрос: ").strip()
+
+    if not question:
+        print("Пустой вопрос.")
+        return
+
+    data = prepare_data(load_clients(), fetch_products(), fetch_orders())
+    answer = answer_question(question, data)
+    print(answer)
 
 
 if __name__ == "__main__":
