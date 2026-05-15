@@ -77,6 +77,7 @@ class ClientProfile:
     top_brands: list[NameQuantity]
     top_categories: list[NameQuantity]
     top_products: list[ProductSales]
+    data_issues: list[dict[str, Any]]
 
 
 @dataclass
@@ -85,6 +86,7 @@ class StockRisks:
     period_start: str | None
     period_end: str | None
     items: list[StockRiskItem]
+    data_issues: list[dict[str, Any]]
 
 
 @dataclass
@@ -139,10 +141,12 @@ def get_client_profile(data: PreparedData, query: str) -> ClientProfile:
             top_brands=[],
             top_categories=[],
             top_products=[],
+            data_issues=[],
         )
 
     products_by_id = _products_by_id(data.products)
     client_orders = [order for order in get_valid_completed_orders(data) if order.client_id == client.id]
+    all_client_orders = [order for order in data.orders if order.client_id == client.id]
     client_orders.sort(key=lambda order: order.date or date.min, reverse=True)
 
     total_revenue = round(sum(order.total_amount or 0 for order in client_orders), 2)
@@ -159,6 +163,7 @@ def get_client_profile(data: PreparedData, query: str) -> ClientProfile:
         top_brands=_top_product_field(client_orders, products_by_id, "brand"),
         top_categories=_top_product_field(client_orders, products_by_id, "category"),
         top_products=_top_products(client_orders, products_by_id),
+        data_issues=_client_issues(data, client, all_client_orders),
     )
 
 
@@ -172,7 +177,7 @@ def get_stock_risks(data: PreparedData, days: int = 90, limit: int = 10) -> Stoc
     dated_orders = [order for order in completed_orders if order.date is not None]
 
     if not dated_orders:
-        return StockRisks(period_days=days, period_start=None, period_end=None, items=[])
+        return StockRisks(period_days=days, period_start=None, period_end=None, items=[], data_issues=_stock_issues(data))
 
     period_end = max(order.date for order in dated_orders if order.date is not None)
     period_start = period_end - timedelta(days=days)
@@ -208,7 +213,13 @@ def get_stock_risks(data: PreparedData, days: int = 90, limit: int = 10) -> Stoc
 
     risks.sort(key=lambda item: item.risk_score, reverse=True)
 
-    return StockRisks(period_days=days, period_start=period_start.isoformat(), period_end=period_end.isoformat(), items=risks[:limit])
+    return StockRisks(
+        period_days=days,
+        period_start=period_start.isoformat(),
+        period_end=period_end.isoformat(),
+        items=risks[:limit],
+        data_issues=_stock_issues(data),
+    )
 
 
 def get_sales_summary(data: PreparedData, days: int = 30) -> SalesSummary:
@@ -373,6 +384,30 @@ def _stock_risk_score(stock_quantity: int, sold_quantity: int, days_left: float 
         score += 10
 
     return round(score, 2)
+
+
+def _client_issues(data: PreparedData, client: Client, client_orders: list[Order], limit: int = 10) -> list[dict[str, Any]]:
+    order_ids = {order.order_id for order in client_orders}
+    result = []
+
+    for issue in data.issues:
+        is_client_issue = issue.source == "clients" and issue.record_id == client.id
+        is_order_issue = issue.source == "orders" and issue.record_id in order_ids
+
+        if is_client_issue or is_order_issue:
+            result.append(_issue_to_dict(issue))
+
+    return result[:limit]
+
+
+def _stock_issues(data: PreparedData, limit: int = 10) -> list[dict[str, Any]]:
+    result = []
+
+    for issue in data.issues:
+        if issue.source in {"products", "orders"}:
+            result.append(_issue_to_dict(issue))
+
+    return result[:limit]
 
 
 def _order_to_summary(order: Order, products_by_id: dict[int, Product]) -> OrderSummary:
