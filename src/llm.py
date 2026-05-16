@@ -13,11 +13,11 @@ from openai import OpenAI
 
 try:
     from src.cleaning import PreparedData
-    from src.prompts import load_prompt
+    from src.prompts import load_instructions_for_tool, load_system_prompt
     from src.tools import TOOLS, parse_tool_arguments, run_tool
 except ModuleNotFoundError:
     from cleaning import PreparedData
-    from prompts import load_prompt
+    from prompts import load_instructions_for_tool, load_system_prompt
     from tools import TOOLS, parse_tool_arguments, run_tool
 
 
@@ -30,7 +30,7 @@ def answer_question(question: str, data: PreparedData) -> str:
         raise RuntimeError("OPENAI_API_KEY не задан. Добавьте ключ в .env")
 
     client = OpenAI()
-    system_prompt = load_prompt("system")
+    system_prompt = load_system_prompt()
     model = os.getenv("OPENAI_MODEL", DEFAULT_MODEL)
 
     first_response = client.responses.create(
@@ -48,10 +48,12 @@ def answer_question(question: str, data: PreparedData) -> str:
         return first_response.output_text
 
     tool_outputs = []
+    selected_tool_name = _get_attr(function_calls[0], "name")
 
     for function_call in function_calls:
         arguments = parse_tool_arguments(_get_attr(function_call, "arguments"))
-        output = run_tool(_get_attr(function_call, "name"), arguments, data)
+        tool_name = _get_attr(function_call, "name")
+        output = run_tool(tool_name, arguments, data)
         tool_outputs.append(
             {
                 "type": "function_call_output",
@@ -62,7 +64,7 @@ def answer_question(question: str, data: PreparedData) -> str:
 
     final_response = client.responses.create(
         model=model,
-        instructions=system_prompt,
+        instructions=load_instructions_for_tool(selected_tool_name),
         input=[
             {"role": "user", "content": question},
             *_response_items(first_response),
