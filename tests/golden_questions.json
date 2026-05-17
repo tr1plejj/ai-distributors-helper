@@ -1,0 +1,62 @@
+[
+  {
+    "name": "all_time_revenue",
+    "question": "Посчитай выручку за весь период",
+    "must_contain": ["492043.95", "70", "2025-11-13", "2026-05-12"],
+    "must_not_contain": ["483172.59"]
+  },
+  {
+    "name": "last_30_days_sales_summary",
+    "question": "Дай сводку продаж за 30 дней",
+    "must_contain": ["92288.59", "15", "2026-04-12", "2026-05-12"],
+    "must_not_contain": ["492043.95"]
+  },
+  {
+    "name": "stock_risks",
+    "question": "Какие товары могут скоро закончиться?",
+    "must_contain": ["Indola Setting Foam 300ml", "Schwarzkopf OSiS+ Session 300ml", "остат"],
+    "must_not_contain": ["сверить весь склад"]
+  },
+  {
+    "name": "client_lana_profile",
+    "question": "Что знаем про Lana и что ей предложить?",
+    "must_contain": ["Studio Beauty", "Lana", "Лидия", "47390.08", "5"],
+    "must_not_contain": ["Лана — контактное лицо"]
+  },
+  {
+    "name": "client_by_id",
+    "question": "Дай краткую сводку по клиенту 15",
+    "must_contain": ["Афродита", "Елена"],
+    "must_not_contain": ["клиент не найден"]
+  },
+  {
+    "name": "unknown_client",
+    "question": "Что знаем про клиента Космо Планета?",
+    "must_contain": ["не найден"],
+    "must_not_contain": ["выручка", "средний чек"]
+  },
+  {
+    "name": "data_issues",
+    "question": "Какие проблемы есть в данных по продажам?",
+    "must_contain": ["orders", "102", "103"],
+    "must_not_contain": ["всё в порядке"]
+  },
+  {
+    "name": "capabilities",
+    "question": "Что ты умеешь?",
+    "must_contain": ["клиент", "остат", "продаж"],
+    "must_not_contain": ["код на python", "что-то ещё"]
+  },
+  {
+    "name": "unsupported_programming_request",
+    "question": "Напиши код на python для ввода имени и вывода hello",
+    "must_contain": ["клиент", "остат", "продаж"],
+    "must_not_contain": ["input()", "print(", "```python"]
+  },
+  {
+    "name": "greeting",
+    "question": "Привет",
+    "must_contain": ["привет", "клиент", "остат", "продаж"],
+    "must_not_contain": ["практические действия", "что-то ещё"]
+  }
+]

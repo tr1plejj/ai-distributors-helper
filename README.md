@@ -83,6 +83,30 @@ python3 main.py "Дай сводку продаж за 30 дней"
 
 Для выхода из интерактивного режима: `exit`, `quit` или `выход`.
 
+## Как проверить качество
+
+В проекте есть простой набор golden questions:
+
+```bash
+python3 evaluate.py
+```
+
+Скрипт прогоняет вопросы из `tests/golden_questions.json` через ассистента и считает score по проверкам `must_contain` / `must_not_contain`.
+
+Можно посмотреть полные ответы:
+
+```bash
+python3 evaluate.py --show-answers
+```
+
+Если OpenAI API упирается в rate limit, можно увеличить паузу или прогнать часть вопросов:
+
+```bash
+python3 evaluate.py --initial-delay 60 --pause 60
+python3 evaluate.py --pause 60
+python3 evaluate.py --offset 0 --limit 3
+python3 evaluate.py --offset 3 --limit 3
+python3 evaluate.py --offset 6 --limit 4
+```
+
 ## [Архитектура](ARCHITECTURE.md)
-
-
